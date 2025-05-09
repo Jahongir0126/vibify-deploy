@@ -1,0 +1,6 @@
+users tayyor 
+message-service qilish kerak  (like,preference ) interface dto Enum tayyor 
+likes serviceda hato bor tog'irlash kerak db bilan ishlashini -bajarildi
+
+preferences service qilish kk 
+

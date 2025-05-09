@@ -1,0 +1,22 @@
+# Общие правила
+node_modules/
+dist/
+.env
+*.log
+
+# Игнорировать node_modules и dist в любых подпапках
+**/node_modules/
+**/dist/
+
+# Игнорируем временные и системные файлы
+.DS_Store
+*.swp
+*.swo
+*.tmp
+
+# Игнор для IDE
+.vscode/
+.idea/
+
+# Игнор для OS
+Thumbs.db

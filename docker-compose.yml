@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  # PostgreSQL база данных
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: diplom
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Сервис пользователей (user-service)
+  users:
+    build:
+      context: ./backend/users
+    image: jahongir0126/diplom-users:latest
+    environment:
+      DATABASE_URL: postgresql://postgres:1111@postgres:5432/diplom
+      APP_MODE: development
+      APP_NAME: users
+      APP_HOST: 0.0.0.0
+      APP_PORT: 4002
+      SECRET_KEY: secret
+    depends_on:
+      - postgres
+    ports:
+      - "4002:4002"
+    networks:
+      - backend
+    command: ["npm", "run", "start:dev"]
+
+  # Сервис сообщений (message-service)
+  message:
+    build:
+      context: ./backend/message
+    image: jahongir0126/diplom-message:latest
+    environment:
+      DATABASE_URL: postgresql://postgres:1111@postgres:5432/diplom
+      APP_MODE: development
+      APP_NAME: message
+      APP_HOST: 0.0.0.0
+      APP_PORT: 4003
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "4003:4003"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    command: ["npm", "run", "start:dev"]
+
+  # Gateway (API шлюз)
+  gateway:
+    build:
+      context: ./backend/gateway
+    image: jahongir0126/diplom-gateway:latest
+    environment:
+      USER_SERVICE_HOST: users
+      USER_SERVICE_PORT: 4002
+      MESSAGE_SERVICE_HOST: message
+      MESSAGE_SERVICE_PORT: 4003
+      APP_PORT: 3000
+      SWAGGER_PATH: /docs
+    depends_on:
+      - users
+      - message
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+    command: ["npm", "run", "start:dev"]
+
+  # Frontend сервис (Vite)
+  frontend:
+    build:
+      context: ./frontend
+    image: jahongir0126/diplom-frontend:latest
+    environment:
+      VITE_CLOUDINARY_URL: https://api.cloudinary.com/v1_1/dwfbr7p4a/image/upload
+    depends_on:
+      - gateway
+    ports:
+      - "5173:5173"  # Порт для Vite, можно настроить по своему
+    networks:
+      - frontend
+      - backend
+    command: ["npm", "run", "dev", "--", "--host"]
+
+# Объявляем сети
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+# Объявляем тома для данных PostgreSQL
+volumes:
+  postgres_data:
