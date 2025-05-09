@@ -1,0 +1,67 @@
+@use '../../styles/variables' as *;
+
+.challenge-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+  overflow-x: auto;
+  padding: $spacing-xs;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: $tablet) {
+    justify-content: start;
+    gap: $spacing-xs;
+    padding: $spacing-xs 0;
+  }
+
+  @media (max-width: $mobile) {
+    margin-bottom: $spacing-md;
+  }
+
+  .nav-item {
+    flex: 0 0 auto;
+  }
+
+  .nav-link {
+    padding: $spacing-sm $spacing-lg;
+    border-radius: $border-radius-full;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    cursor: pointer;
+
+    @media (max-width: $tablet) {
+      padding: $spacing-xs $spacing-md;
+      font-size: 13px;
+    }
+
+    @media (max-width: $mobile) {
+      padding: 6px 16px;
+      font-size: 12px;
+    }
+
+    &:hover {
+      background: var(--hover-background);
+      transform: translateY(-1px);
+    }
+
+    &.active {
+      background: var(--accent-primary);
+      color: white;
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px var(--shadow-color);
+    }
+  }
+}

@@ -1,0 +1,257 @@
+@use '../../styles/variables' as *;
+
+.challenge-card {
+  background: var(--card-background);
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 1px solid var(--border-color);
+  
+  @media (max-width: $mobile) {
+    margin: 0 $spacing-xs;
+  }
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+  }
+
+  .challenge-header {
+    padding: $spacing-md;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    
+    @media (max-width: $mobile) {
+      padding: $spacing-sm;
+    }
+    
+    .challenge-icon {
+      font-size: 24px;
+      color: var(--accent-primary);
+      
+      @media (max-width: $mobile) {
+        font-size: 20px;
+      }
+    }
+    
+    .difficulty-badge {
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-full;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 600;
+      
+      @media (max-width: $mobile) {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+    }
+  }
+
+  .card-body {
+    padding: $spacing-md;
+    
+    @media (max-width: $mobile) {
+      padding: $spacing-sm;
+    }
+    
+    .card-title {
+      margin: 0 0 $spacing-sm;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      
+      @media (max-width: $mobile) {
+        font-size: 16px;
+      }
+    }
+    
+    .card-text {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin: 0 0 $spacing-md;
+      
+      @media (max-width: $mobile) {
+        font-size: 13px;
+        margin-bottom: $spacing-sm;
+      }
+    }
+  }
+
+  .progress-section {
+    margin-bottom: $spacing-md;
+    
+    @media (max-width: $mobile) {
+      margin-bottom: $spacing-sm;
+    }
+    
+    .progress {
+      height: 8px;
+      background: var(--background-secondary);
+      border-radius: $border-radius-full;
+      overflow: hidden;
+      
+      @media (max-width: $mobile) {
+        height: 6px;
+      }
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: var(--accent-primary);
+      border-radius: $border-radius-full;
+      transition: width 0.3s ease;
+    }
+  }
+
+  .reward-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .reward-text {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin: 0;
+      
+      @media (max-width: $mobile) {
+        font-size: 12px;
+      }
+    }
+    
+    .reward-button {
+      padding: $spacing-xs $spacing-md;
+      border-radius: $border-radius-full;
+      background: var(--accent-primary);
+      color: white;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      @media (max-width: $mobile) {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+      
+      &:hover {
+        background: var(--accent-secondary);
+        transform: translateY(-2px);
+      }
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+    }
+  }
+
+  &.locked {
+    opacity: 0.7;
+    
+    .challenge-locked {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      gap: $spacing-sm;
+      backdrop-filter: blur(2px);
+      
+      .lock-icon {
+        font-size: 32px;
+        margin-bottom: $spacing-sm;
+        
+        @media (max-width: $mobile) {
+          font-size: 24px;
+        }
+      }
+      
+      p {
+        text-align: center;
+        margin: 0;
+        padding: 0 $spacing-md;
+        font-size: 14px;
+        
+        @media (max-width: $mobile) {
+          font-size: 12px;
+          padding: 0 $spacing-sm;
+        }
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+@keyframes premiumPulse {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(241, 196, 15, 0.5));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(241, 196, 15, 0.7));
+    transform: scale(1.2);
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(241, 196, 15, 0.5));
+    transform: scale(1);
+  }
+}
+
+@keyframes lockPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes premiumBorderPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+  }
+}

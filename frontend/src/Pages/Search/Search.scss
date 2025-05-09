@@ -1,0 +1,91 @@
+@use '../../styles/variables' as *;
+
+.search-page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+  padding-left: calc(60px + $spacing-sm);
+
+  @media (max-width: $tablet) {
+    padding: $spacing-xs;
+    gap: $spacing-xs;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xs;
+  }
+}
+
+.search-results {
+  flex: 1;
+  
+  .loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: var(--text-secondary);
+    font-size: 16px;
+  }
+  
+  .no-users-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: var(--text-secondary);
+    text-align: center;
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: $spacing-lg;
+    
+    p {
+      font-size: 16px;
+      max-width: 300px;
+      margin: 0;
+
+      @media (max-width: $mobile) {
+        font-size: 14px;
+        max-width: 250px;
+      }
+    }
+  }
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $spacing-md;
+  
+  @media (max-width: $tablet) {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: $spacing-sm;
+  }
+  
+  @media (max-width: $mobile) {
+    grid-template-columns: 1fr;
+    gap: $spacing-xs;
+  }
+}
+
+// Responsive styles
+@media (max-width: $tablet) {
+  .search-content {
+    padding: $spacing-sm;
+  }
+
+  .filters-section {
+    padding: $spacing-xs;
+    
+    .filter-item {
+      min-width: 100%;
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .search-content {
+    padding: $spacing-xs;
+  }
+}

@@ -1,0 +1,113 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String           @id @map("id")         @db.Uuid         @default(uuid())
+  username     String           @map("username")       @db.VarChar(200)
+  password     String           @map("password")       @db.VarChar(200)
+  role         String           @map("role")           @db.VarChar(20)  @default("user")
+  createdAt    DateTime         @map("created_at")     @db.Timestamp(0) @default(now())
+  updatedAt    DateTime         @map("updated_at")     @db.Timestamp(0) @updatedAt
+  deletedAt    DateTime?        @map("deleted_at")
+  accessToken  String?          @map("access_token")   @db.VarChar()
+  refreshToken String?          @map("refresh_token")  @db.VarChar()
+
+  UserProfile   UserProfile[]
+  userInterests UserInterest[]
+
+  @@unique([username])
+  @@map("users")
+}
+
+model UserProfile {
+  userId      String   @map("user_id")    @db.Uuid @default(uuid())
+  avatarUrl   String?  @map("avatar_url") @db.VarChar(255)
+  bio         String?  @map("bio")        @db.Text
+  photoUrl    String   @map("photo_url")  @db.VarChar(255)
+  gender      String   @map("gender")     @db.VarChar(50)
+  birthdate   String   @map("birthdate")  @db.VarChar()
+  location    String?  @map("location")   @db.VarChar(255)
+  nickname    String?  @map("nickname")   @db.VarChar(100)
+  createdAt   DateTime @map("created_at") @db.Timestamp(0) @default(now())
+  specialtyId String?
+
+  specialty   Specialty?    @relation(fields: [specialtyId], references: [id])
+  interests   Interest[]
+  communities Community[]
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId])
+  @@map("user_profiles")
+}
+
+model Specialty {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  description String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  profiles    UserProfile[]
+  communities Community[]
+}
+
+model Interest {
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String        @unique
+  description String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  userInterests     UserInterest[]
+  communityInterests CommunityInterest[]
+  profiles          UserProfile[]
+  communities       Community[]
+}
+
+
+model UserInterest {
+  id         String   @id @default(uuid())
+  userId     String   @db.Uuid
+  interestId String   @db.Uuid
+
+  user       User     @relation(fields: [userId], references: [id])
+  interest   Interest @relation(fields: [interestId], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, interestId])
+  @@map("user_interests")
+}
+
+model CommunityInterest {
+  id           String   @id @default(uuid())
+  communityId  String   @db.Uuid
+  interestId   String   @db.Uuid
+
+  interest     Interest @relation(fields: [interestId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([communityId, interestId])
+}
+
+model Community {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  description String?
+  specialtyId String?
+
+  specialty   Specialty?    @relation(fields: [specialtyId], references: [id])
+  interests   Interest[]
+  members     UserProfile[]
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}

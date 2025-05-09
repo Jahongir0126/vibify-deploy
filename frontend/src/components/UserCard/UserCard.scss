@@ -1,0 +1,194 @@
+@use '../../styles/variables' as *;
+
+.user-card {
+  background: var(--card-background);
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  position: relative;
+  transition: $transition-base;
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
+  border: 1px solid var(--border-color);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+
+    .user-card-image img {
+      transform: scale(1.05);
+    }
+  }
+
+  &-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: $transition-base;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+      pointer-events: none;
+    }
+  }
+
+  &-content {
+    padding: $spacing-md;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &-name {
+    font-size: 1.1rem;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+  }
+
+  &-interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    // margin-top: 0.5rem;
+
+    .interest-tag {
+      background: var(--hover-background);
+      color: var(--text-secondary);
+      padding: 0.15rem 0.5rem;
+      border-radius: $border-radius-lg;
+      font-size: 0.75rem;
+      transition: $transition-fast;
+      border: 1px solid var(--border-color);
+      &:hover {
+        background: var(--active-background);
+        transform: translateY(-1px);
+        color: var(--text-primary);
+        border-color: var(--accent-primary);
+      }
+    }
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: $spacing-sm $spacing-md;
+    gap: $spacing-sm;
+    border-top: 1px solid var(--border-color);
+    background: var(--background-secondary);
+
+    .action-button {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-full;
+      font-size: 0.9rem;
+      transition: $transition-fast;
+      background: var(--hover-background);
+      color: var(--text-primary);
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--active-background);
+        transform: translateY(-1px);
+      }
+
+      &.skip {
+        &:hover {
+          background: rgba(255, 107, 107, 0.1);
+          color: #ff6b6b;
+        }
+      }
+
+      &.chat {
+        &:hover {
+          background: rgba(52, 152, 219, 0.1);
+          color: #3498db;
+        }
+      }
+
+      &.like {
+        &:hover {
+          background: rgba(255, 71, 87, 0.1);
+          color: #ff4757;
+        }
+      }
+    }
+  }
+
+  &-details {
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    
+    p {
+      margin: 0.25rem 0;
+      color: var(--text-primary);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem;
+      align-items: baseline;
+      
+      strong {
+        color: var(--text-secondary);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  // Responsive styles
+  @media (max-width: $tablet) {
+    &-image {
+      height: 180px;
+    }
+
+    &-content {
+      padding: $spacing-sm;
+    }
+
+    &-actions {
+      padding: $spacing-xs $spacing-sm;
+    }
+  }
+
+  @media (max-width: $mobile) {
+    &-image {
+      height: 160px;
+    }
+
+    &-name {
+      font-size: 1rem;
+    }
+
+    &-details {
+      font-size: 0.8rem;
+    }
+
+    &-actions {
+      padding: $spacing-xs;
+      gap: $spacing-xs;
+      
+      .action-button {
+        padding: $spacing-xs;
+      }
+    }
+  }
+}

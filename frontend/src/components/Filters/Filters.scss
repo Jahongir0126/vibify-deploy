@@ -1,0 +1,246 @@
+@use '../../styles/variables' as *;
+
+.filters-section {
+  position: relative;
+  z-index: 100;
+  background: var(--card-background);
+  border-radius: 12px;
+  padding: $spacing-md;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--border-color);
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+  width: 100%;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  select, input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--background-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: var(--accent-primary);
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 2px rgba(var(--accent-primary-rgb), 0.2);
+    }
+    
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%239900ff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    
+    option {
+      background: var(--background-primary);
+      color: var(--text-primary);
+    }
+  }
+}
+
+.age-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  input {
+    width: calc(50% - 8px);
+  }
+
+  .age-separator {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+}
+
+.radius-input {
+  position: relative;
+
+  input {
+    padding-right: 40px;
+  }
+
+  .radius-unit {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+}
+
+.interests-dropdown {
+  position: relative;
+  
+  .dropdown-container {
+    position: relative;
+
+    &:hover {
+      .interests-dropdown-content {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .interests-button {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--background-primary);
+    color: var(--text-primary);
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--accent-primary);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 2px rgba(var(--accent-primary-rgb), 0.2);
+    }
+  }
+
+  .interests-dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--background-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 9999;
+    padding: 8px;
+    margin-top: 4px;
+    
+    // Добавляем плавную анимацию
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-in-out;
+    
+    // Остальные стили для скроллбара и чекбоксов
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: var(--background-secondary);
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--accent-primary);
+      border-radius: 3px;
+    }
+  }
+
+  .interest-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    gap: 8px;
+    
+    &:hover {
+      background: var(--hover-background);
+    }
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    .checkbox-custom {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      position: relative;
+      transition: all 0.2s;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 6px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+    }
+
+    input[type="checkbox"]:checked + .checkbox-custom {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: $tablet) {
+  .filters-section {
+    padding: $spacing-sm;
+  }
+
+  .filters-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: $spacing-sm;
+  }
+}
+
+@media (max-width: $mobile) {
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+}

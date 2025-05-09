@@ -1,0 +1,6 @@
+export * from './create-specialty.dto'
+export * from './update-specialty.dto'
+export * from './add-user-specialty.dto'
+export * from './remove-user-specialty.dto'
+export * from './add-community-specialty.dto'
+export * from './remove-community-specialty.dto'

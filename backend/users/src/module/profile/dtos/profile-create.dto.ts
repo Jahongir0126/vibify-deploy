@@ -1,0 +1,41 @@
+import {
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator'
+import { ProfileCreateRequest } from '../interfaces'
+
+export class ProfileCreateDto implements ProfileCreateRequest {
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  bio: string
+
+  @IsString()
+  @IsNotEmpty()
+  gender: string
+
+  @IsString()
+  @IsNotEmpty()
+  photoUrl: string
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  location: string
+
+  @IsString()
+  @IsNotEmpty()
+  birthdate: string
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  avatarUrl: string
+}

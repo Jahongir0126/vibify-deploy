@@ -1,0 +1,42 @@
+datasource db {
+url         = env("DATABASE_URL")
+provider    = "postgresql"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Message {
+    messageId  String   @map("message_id")          @db.Uuid         @default(uuid())
+    senderId   String   @map("sender_id")   @db.Uuid         // userId из User Service
+    receiverId String   @map("receiver_id") @db.Uuid         // userId из User Service
+    content    String   @map("content")     @db.Text
+    createdAt  DateTime @map("created_at")  @db.Timestamp(0) @default(now())
+
+    @@id([messageId])
+    @@map("messages")
+}
+
+model Preference {
+    id              String   @map("id")               @db.Uuid         @default(uuid())
+    userId          String   @map("user_id")          @db.Uuid         // userId из User Service
+    preferredGender String?  @map("preferred_gender") @db.VarChar(50)
+    ageMin          Int      @map("age_min")          @db.Integer
+    ageMax          Int      @map("age_max")          @db.Integer
+    locationRadius  Int      @map("location_radius")  @db.Integer
+    createdAt       DateTime @map("created_at")       @db.Timestamp(0) @default(now())
+
+    @@id([id])
+    @@map("preferences")
+}
+
+model Like {
+    id        String   @map("id")         @db.Uuid         @default(uuid())
+    likerId   String   @map("liker_id")   @db.Uuid         // userId из User Service
+    likedId   String   @map("liked_id")   @db.Uuid         // userId из User Service
+    createdAt DateTime @map("created_at") @db.Timestamp(0) @default(now())
+
+    @@id([id])
+    @@map("likes")
+}
